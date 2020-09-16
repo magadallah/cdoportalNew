@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 	xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+    <context:component-scan base-package="com.cibeg.cdo.cdoportal.controller" />
+     
+   <!-- <context:annotation-config />
+    <bean  class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jsp" />
+    </bean> -->
+    
+  
+
+    
+    
+    <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="UserLogin" class="com.cibeg.cdo.cdoportal.controller.UserLogin">
+			</bean>
+	
+	
+	
+     <security:authentication-manager>
+  	<security:authentication-provider ref="UserLogin"/> 
+  <!-- 	<security:authentication-provider>
+  	<security:user-service>
+	    <security:user name="maged" password="maged" authorities="ROLE_USER" />
+	  </security:user-service>
+	  </security:authentication-provider> -->
+    </security:authentication-manager>
+    
+     
+    
+    
+    
+    
+  <security:http >
+
+	
+
+    <security:session-management invalid-session-url="/login">
+        <security:concurrency-control max-sessions="1"   expired-url="/login"/>
+        
+    </security:session-management>
+    <security:csrf disabled="true"/>
+  
+  
+    
+    <security:form-login
+         login-page="/home"
+         default-target-url="/home"
+         authentication-failure-url="/login" />
+ 
+      <security:logout logout-success-url="/login" />
+    
+ 
+   
+  </security:http> 
+    
+  
+    
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
+
+
+	
+  
+
+</beans>
